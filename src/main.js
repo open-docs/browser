@@ -4,7 +4,9 @@ import AppStore from './stores/main'
 import ContentView from './components/contentView'
 import Menu from './components/menu'
 import SideTree from './components/sideTree'
+import ModalManager from './components/modals'
 import {DropdownButton, MenuItem} from 'react-bootstrap'
+import {MODAL_NAMES} from './consts'
 // useStrict(true)
 
 const store = new AppStore()
@@ -15,10 +17,13 @@ const mount = document.getElementById('root')  // mountpoint
 ReactDOM.render((
   <div style={{width: '100%'}}>
     <Menu store={store} />
+    <ModalManager store={store} />
     <div className='row'>
       <div className='col-xs-2'>
-        <DropdownButton bsStyle='primary' title={'novy'} id='addDd'>
-          <MenuItem eventKey='1'>Slozka</MenuItem>
+        <DropdownButton bsStyle='primary' title={'+ novy'} id='addDd'>
+          <MenuItem eventKey='1' onClick={() => store.showModal(MODAL_NAMES.ADD_DOC)}>
+            Slozka
+          </MenuItem>
           <MenuItem eventKey='2'>Nahrat soubor</MenuItem>
           <MenuItem divider />
           <MenuItem eventKey='4'>Textovy dokument</MenuItem>

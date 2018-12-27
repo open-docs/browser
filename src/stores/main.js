@@ -2,15 +2,15 @@ import {observable, action, computed} from 'mobx'
 import {MODAL_NAMES} from '../consts'
 import SideTreeStore from './sideTree'
 import APIService from './apiService'
-// import TitleEditStore from './titleEdit'
+import AddDocStore from './addDoc'
 // import SubtsEditStore from './substsEdit'
 // import PermsEditStore from './permsEdit'
-//
-// const modalMapping = {
-//   [MODAL_NAMES.TITLE]: TitleEditStore,
-//   [MODAL_NAMES.PERMS]: PermsEditStore,
-//   [MODAL_NAMES.SUBSTS]: SubtsEditStore
-// }
+
+const modalMapping = {
+  [MODAL_NAMES.ADD_DOC]: AddDocStore
+  // [MODAL_NAMES.PERMS]: PermsEditStore,
+  // [MODAL_NAMES.SUBSTS]: SubtsEditStore
+}
 
 export default class StateStore {
 
@@ -28,15 +28,15 @@ export default class StateStore {
 
   @observable menuDown = false
 
-  // @observable activeModal = null
-  // @action closeModal () {
-  //   this.activeModal = null
-  //   delete this.modalStore
-  // }
-  // @action showModal (name) {
-  //   this.activeModal = name
-  //   this.modalStore = new modalMapping[name](this)
-  // }
+  @observable activeModal = null
+  @action closeModal () {
+    this.activeModal = null
+    delete this.modalStore
+  }
+  @action showModal (name) {
+    this.activeModal = name
+    this.modalStore = new modalMapping[name](this)
+  }
 
   @observable data = []
   @observable loading = true

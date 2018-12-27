@@ -6,6 +6,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const conf = new HtmlWebpackPlugin({
+  url: process.env.API_URL || '/api',
+  version: '0.0.1',
   template: './index.template.html'
 })
 

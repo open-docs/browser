@@ -21,12 +21,9 @@ export default class StateStore {
 
   load (id) {
     this.sideTree.load()
-    const data = [
-      {name: 'file 1', id: 13, owner: 'gandalf', lastModified: '1.2.2018'},
-      {name: 'file 2', id: 39, owner: 'gandalf', lastModified: '1.2.2018'},
-      {name: 'file 22', id: 334, owner: 'gandalf', lastModified: '1.2.2018'}
-    ]
-    setTimeout(this.onLoaded.bind(this, data), 2000)
+    this.api.get('/docs/list/')
+    .then(this.onLoaded.bind(this))
+    .catch(err => console.log(err))
   }
 
   @observable menuDown = false

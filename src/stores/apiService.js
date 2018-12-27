@@ -1,20 +1,37 @@
+/* global Conf */
 import axios from 'axios'
 
 export default class APIService {
 
-  get () {
-
+  token = ''
+  setToken (token) {
+    this.authHeader = {'Authorization': `Bearer ${this.token}`}
   }
 
-  post () {
+  get (url) {
+    return axios({
+      method: 'get',
+      url: `${Conf.url}${url}`,
+      headers: this.authHeader
+    }).then(res => res.data)
+  }
 
+  post (url, data) {
+    return axios({
+      method: 'post',
+      url: `${Conf.url}${url}`,
+      headers: this.authHeader,
+      data
+    })
   }
 
   put (url, data) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(data), 2000)
+    return axios({
+      method: 'put',
+      url: `${Conf.url}${url}`,
+      headers: this.authHeader,
+      data
     })
-    // return axios.put()
   }
 
 }

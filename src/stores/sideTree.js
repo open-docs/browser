@@ -9,12 +9,9 @@ export default class SideTreeStore {
   }
 
   load (id) {
-    const data = [
-      {name: 'folder 1', id: 11},
-      {name: 'folder 2', id: 33},
-      {name: 'folder 22', id: 332}
-    ]
-    setTimeout(this.onLoaded.bind(this, data), 2000)
+    this.store.api.get('/docs/list/')
+    .then(this.onLoaded.bind(this))
+    .catch(err => console.log(err))
   }
 
   @observable menuDown = false

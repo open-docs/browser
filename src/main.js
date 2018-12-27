@@ -4,6 +4,7 @@ import AppStore from './stores/main'
 import ContentView from './components/contentView'
 import Menu from './components/menu'
 import SideTree from './components/sideTree'
+import {DropdownButton, MenuItem} from 'react-bootstrap'
 // useStrict(true)
 
 const store = new AppStore()
@@ -15,10 +16,16 @@ ReactDOM.render((
   <div style={{width: '100%'}}>
     <Menu store={store} />
     <div className='row'>
-      <div className='col-3'>
+      <div className='col-xs-2'>
+        <DropdownButton bsStyle='primary' title={'novy'} id='addDd'>
+          <MenuItem eventKey='1'>Slozka</MenuItem>
+          <MenuItem eventKey='2'>Nahrat soubor</MenuItem>
+          <MenuItem divider />
+          <MenuItem eventKey='4'>Textovy dokument</MenuItem>
+        </DropdownButton>
         <SideTree store={store.sideTree} />
       </div>
-      <div className='col-9'>
+      <div className='col-xs-10'>
         <ContentView store={store} />
       </div>
     </div>

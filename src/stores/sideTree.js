@@ -9,26 +9,25 @@ export default class SideTreeStore {
   }
 
   load (id) {
-    this.store.api.get('/docs/list/')
+    this.store.api.get(`/docs/list/${id || ''}`)
     .then(this.onLoaded.bind(this))
     .catch(err => console.log(err))
   }
 
   @observable tree = {
     loading: true,
-    children: []
+    children: [],
+    id: null
   }
-  @observable cursor = null
 
-  @action onToggle (node, toggled) {
-    if (this.cursor) {
-      this.cursor.active = false;
-    }
-    node.active = true
-    if (node.children) {
-      node.toggled = toggled
+  @action onToggle (node) {
+    if (this.cursor) {  // close old branch
+      this.cursor.children = []
+      this.cursor.toggled = false
     }
     this.cursor = node
+    node.toggled = !node.toggled
+    this.load(node.id)
   }
 
   @action onFolderAdd (data) {
@@ -36,8 +35,13 @@ export default class SideTreeStore {
   }
 
   @action onLoaded (data) {
-    this.tree.loading = false
-    this.tree.children = data
+    const cursor = this.cursor || this.tree
+    cursor.loading = false
+    data.map(i => {
+      i.toggled = false
+      i.children = []
+    })
+    cursor.children = data
   }
 
 }

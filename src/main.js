@@ -6,7 +6,7 @@ import Menu from './components/menu'
 import SideTree from './components/sideTree'
 import ModalManager from './components/modals'
 import {DropdownButton, MenuItem} from 'react-bootstrap'
-import {MODAL_NAMES} from './consts'
+import {MODAL_NAMES, DOC_TYPES} from './consts'
 // useStrict(true)
 
 const store = new AppStore()
@@ -21,12 +21,16 @@ ReactDOM.render((
     <div className='row'>
       <div className='col-xs-2'>
         <DropdownButton bsStyle='primary' title={'+ novy'} id='addDd'>
-          <MenuItem eventKey='1' onClick={() => store.showModal(MODAL_NAMES.ADD_DOC)}>
+          <MenuItem eventKey='1' onClick={() => {
+            store.showModal(MODAL_NAMES.ADD_DOC, {typ: DOC_TYPES.FOLDER})
+          }}>
             Slozka
           </MenuItem>
           <MenuItem eventKey='2'>Nahrat soubor</MenuItem>
           <MenuItem divider />
-          <MenuItem eventKey='4'>Textovy dokument</MenuItem>
+          <MenuItem eventKey='4' onClick={() => {
+            store.showModal(MODAL_NAMES.ADD_DOC, {typ: DOC_TYPES.TEXT})
+          }}>Textovy dokument</MenuItem>
         </DropdownButton>
         <SideTree store={store.sideTree} />
       </div>

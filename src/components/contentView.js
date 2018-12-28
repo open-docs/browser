@@ -7,7 +7,6 @@ const TextView = observer(({store}) => {
     <table className='table table-sm'>
       <thead>
         <tr>
-          <th scope='col'>#</th>
           <th scope='col'>Nazev</th>
           <th scope='col'>Majitel</th>
           <th scope='col'>Upraveno</th>
@@ -17,8 +16,7 @@ const TextView = observer(({store}) => {
         {
           store.data.map((i, idx) => (
             <tr key={idx}>
-              <th scope='row'>{i.id}</th>
-              <td>{i.name}</td>
+              <th scope='row'><i className='fas fa-folder' /> {i.name}</th>
               <td>{i.owner}</td>
               <td>{i.lastModified}</td>
             </tr>

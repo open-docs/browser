@@ -33,9 +33,9 @@ export default class StateStore {
     this.activeModal = null
     delete this.modalStore
   }
-  @action showModal (name) {
+  @action showModal (name, params) {
     this.activeModal = name
-    this.modalStore = new modalMapping[name](this)
+    this.modalStore = new modalMapping[name](this, params)
   }
 
   @observable data = []

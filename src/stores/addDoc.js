@@ -1,19 +1,29 @@
 import {observable, action, computed} from 'mobx'
+import {DOC_TYPES} from '../consts'
 
 export default class AddDocStore {
 
-  constructor (store) {
+  constructor (store, params) {
     this.store = store
+    this.params = params
   }
 
-  title = 'Novy dokument'
+  titles = {
+    [DOC_TYPES.FOLDER]: 'Nova slozka',
+    [DOC_TYPES.TEXT]: 'Nova dokument'
+  }
 
-  @observable val = false
-  @observable error = false
+  @computed get title () {
+    return this.titles[this.params.typ]
+  }
+
+  @observable val = ''
+  @observable error = 'nesmi byt'
 
   @action save () {
     const data = {
       name: this.val,
+      typ: this.params.typ,
       perms: 'eee'
     }
     this.store.api.post('/docs/', data)
@@ -23,7 +33,9 @@ export default class AddDocStore {
 
   @action onSaved (data) {
     this.store.closeModal()
-    this.store.sideTree.tree.children.push(data)
+    if (this.params.typ === DOC_TYPES.FOLDER) {
+      this.store.sideTree.tree.children.push(data)
+    }
     this.store.data.push(data)
   }
 

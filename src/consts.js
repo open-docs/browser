@@ -4,3 +4,8 @@ export const MODAL_NAMES = {
   PERMS: 'permissions',
   ADD_DOC: 'adddoc'
 }
+
+export const DOC_TYPES = {
+  FOLDER: 'folder',
+  TEXT: 'text'
+}

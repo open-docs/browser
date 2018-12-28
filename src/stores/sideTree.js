@@ -1,6 +1,8 @@
 import {observable, action, computed} from 'mobx'
-import {MODAL_NAMES} from '../consts'
+import {MODAL_NAMES, DOC_TYPES} from '../consts'
 import APIService from './apiService'
+
+const _attrs = 'name,id,parent'
 
 export default class SideTreeStore {
 
@@ -9,7 +11,8 @@ export default class SideTreeStore {
   }
 
   load (id) {
-    this.store.api.get(`/docs/list/${id || ''}`)
+    const url = `/docs/list/${id || ''}?typ=${DOC_TYPES.FOLDER}&_select=${_attrs}`
+    this.store.api.get(url)
     .then(this.onLoaded.bind(this))
     .catch(err => console.log(err))
   }

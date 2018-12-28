@@ -24,7 +24,8 @@ export default class AddDocStore {
     const data = {
       name: this.val,
       typ: this.params.typ,
-      perms: 'eee'
+      perms: 'eee',
+      parent: this.store.currParent
     }
     this.store.api.post('/docs/', data)
     .then(this.onSaved.bind(this, data))
@@ -34,7 +35,7 @@ export default class AddDocStore {
   @action onSaved (data) {
     this.store.closeModal()
     if (this.params.typ === DOC_TYPES.FOLDER) {
-      this.store.sideTree.tree.children.push(data)
+      this.store.sideTree.onFolderAdd(data)
     }
     this.store.data.push(data)
   }

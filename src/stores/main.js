@@ -1,5 +1,5 @@
 import {observable, action, computed} from 'mobx'
-import {MODAL_NAMES} from '../consts'
+import {MODAL_NAMES, DOC_TYPES} from '../consts'
 import SideTreeStore from './sideTree'
 import APIService from './apiService'
 import AddDocStore from './addDoc'
@@ -21,7 +21,13 @@ export default class StateStore {
 
   load (id) {
     this.sideTree.load()
-    this.api.get('/docs/list/')
+    this.loadFolderContent(null)
+  }
+
+  loadFolderContent (folderId) {
+    const id = folderId || ''
+    window.history.replaceState(id, id, id)
+    this.api.get(`/docs/list/${id}`)
     .then(this.onLoaded.bind(this))
     .catch(err => console.log(err))
   }
@@ -54,4 +60,25 @@ export default class StateStore {
     this.doc.substitutions[idx] = val
   }
 
+  @observable path = []
+  @computed get currParent () {
+    return this.path.length === 0 ? null : this.path[this.path.length - 1].id
+  }
+
+  @action onFolderClick (folder) {
+    this.path.push(folder)
+    this.loadFolderContent(folder.id)
+  }
+
+  @action onHomeClick () {
+    this.path.clear()
+    this.loadFolderContent(null)
+  }
+
+  @action onDetailClick (doc) {
+    switch (doc.typ) {
+      case DOC_TYPES.FOLDER: return this.onFolderClick(doc)
+      case DOC_TYPES.TEXT: return window.open(`${Conf.textEditUrl}/${doc.id}`)
+    }
+  }
 }

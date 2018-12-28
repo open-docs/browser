@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const conf = new HtmlWebpackPlugin({
   url: process.env.API_URL || '/api',
+  textEditUrl: process.env.TEXTEDIT_URL || '/texteditor',
   version: '0.0.1',
   template: './index.template.html'
 })

@@ -4,6 +4,7 @@ import AppStore from './stores/main'
 import ContentView from './components/contentView'
 import Menu from './components/menu'
 import SideTree from './components/sideTree'
+import PathView from './components/pathView'
 import ModalManager from './components/modals'
 import {DropdownButton, MenuItem} from 'react-bootstrap'
 import {MODAL_NAMES, DOC_TYPES} from './consts'
@@ -35,6 +36,7 @@ ReactDOM.render((
         <SideTree store={store.sideTree} />
       </div>
       <div className='col-xs-10'>
+        <PathView store={store} />
         <ContentView store={store} />
       </div>
     </div>

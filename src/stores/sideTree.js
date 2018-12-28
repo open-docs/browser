@@ -14,8 +14,6 @@ export default class SideTreeStore {
     .catch(err => console.log(err))
   }
 
-  @observable menuDown = false
-
   @observable tree = {
     loading: true,
     children: []
@@ -23,12 +21,18 @@ export default class SideTreeStore {
   @observable cursor = null
 
   @action onToggle (node, toggled) {
-    if(this.cursor){
+    if (this.cursor) {
       this.cursor.active = false;
     }
-    node.active = true;
-    if(node.children){ node.toggled = toggled; }
+    node.active = true
+    if (node.children) {
+      node.toggled = toggled
+    }
     this.cursor = node
+  }
+
+  @action onFolderAdd (data) {
+    this.sideTree.tree.children.push(data)
   }
 
   @action onLoaded (data) {

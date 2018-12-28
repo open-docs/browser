@@ -1,6 +1,11 @@
 import React from 'react'
 import {observer} from 'mobx-react'
-// import ModalEditor from './modals'
+import {DOC_TYPES} from '../consts'
+
+const icons = {
+  [DOC_TYPES.FOLDER]: 'fa-folder',
+  [DOC_TYPES.TEXT]: 'fa-file-alt'
+}
 
 const TextView = observer(({store}) => {
   return store.loading ? (<h4>načítám</h4>) : (
@@ -16,7 +21,11 @@ const TextView = observer(({store}) => {
         {
           store.data.map((i, idx) => (
             <tr key={idx}>
-              <th scope='row'><i className='fas fa-folder' /> {i.name}</th>
+              <th scope='row'>
+                <a href='javascript:void(0)' onClick={() => store.onDetailClick(i)}>
+                  <i className={`fas ${icons[i.typ]}`} /> {i.name}
+                </a>
+              </th>
               <td>{i.owner}</td>
               <td>{i.lastModified}</td>
             </tr>

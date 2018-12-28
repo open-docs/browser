@@ -6,7 +6,9 @@ const SideTree = ({store}) => {
     <ul className='list-group list-group-flush'>
       {
         store.tree.children.map((i, idx) => (
-          <li key={idx} className='list-group-item'><i className='fas fa-folder' /> {i.name}</li>
+          <li key={idx} className='list-group-item'>
+            <i className={`fas ${i.opned ? 'fa-folder' : 'fa-folder-open'}`} /> {i.name}
+          </li>
         ))
       }
     </ul>

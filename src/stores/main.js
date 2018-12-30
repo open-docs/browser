@@ -3,11 +3,13 @@ import {MODAL_NAMES, DOC_TYPES} from '../consts'
 import SideTreeStore from './sideTree'
 import APIService from './apiService'
 import AddDocStore from './addDoc'
+import LoginStore from './login'
 // import SubtsEditStore from './substsEdit'
 // import PermsEditStore from './permsEdit'
 
 const modalMapping = {
-  [MODAL_NAMES.ADD_DOC]: AddDocStore
+  [MODAL_NAMES.ADD_DOC]: AddDocStore,
+  [MODAL_NAMES.LOGIN]: LoginStore
   // [MODAL_NAMES.PERMS]: PermsEditStore,
   // [MODAL_NAMES.SUBSTS]: SubtsEditStore
 }
@@ -15,8 +17,22 @@ const modalMapping = {
 export default class StateStore {
 
   constructor () {
-    this.api = new APIService()
+    this.api = new APIService(this.on401.bind(this))
     this.sideTree = new SideTreeStore(this)
+    this.loginPromises = []
+  }
+
+  on401 (err) {
+    this.activeModal !== MODAL_NAMES.LOGIN && this.showModal(MODAL_NAMES.LOGIN)
+    return new Promise((resolve, reject) => {
+      this.loginPromises.push(resolve)
+    })
+  }
+
+  onLoggedIn () {
+    this.loginPromises.map(resolve => resolve())
+    this.loginPromises = []
+    this.closeModal()
   }
 
   load (id) {
@@ -49,7 +65,7 @@ export default class StateStore {
 
   @action onLoaded (data) {
     this.loading = false
-    this.data = data
+    this.data = data || []
   }
 
   @action onChange (name, text) {

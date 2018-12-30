@@ -19,6 +19,9 @@ export default class AddDocStore {
 
   @observable val = ''
   @observable error = 'nesmi byt'
+  @computed get disabled () {
+    return error !== false
+  }
 
   @action save () {
     const data = {

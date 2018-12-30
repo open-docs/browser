@@ -11,6 +11,16 @@ const Menu = ({store}) => {
           <li><a className='nav-item nav-link' onClick={() => store.showModal(MODAL_NAMES.PERMS)} href='javascript:void(0)'>Oprávnění</a></li>
           <li><a className='nav-item nav-link active' onClick={() => store.showModal(MODAL_NAMES.SUBSTS)} href='javascript:void(0)'>Substituce</a></li>
         </ul>
+        <ul className='nav navbar-nav navbar-right'>
+          {
+            store.api.auth.user ? [
+              <li key='user'><a>Prihlasen: {store.api.auth.user.uname}</a></li>,
+              <li key='lg'><a href='javascript:void(0)' onClick={() => store.api.logout()}>logout</a></li>
+            ] : (
+              <li><a href='javascript:void(0)' onClick={() => store.showModal(MODAL_NAMES.LOGIN)}>login</a></li>
+            )
+          }
+        </ul>
       </div>
     </nav>
   )
